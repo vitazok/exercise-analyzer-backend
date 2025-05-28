@@ -3,3 +3,4 @@ __pycache__/
 uploads/
 processed/
 exercise_env/
+.DS_Store
