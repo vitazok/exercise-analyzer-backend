@@ -1,6 +1,7 @@
 from fastapi import FastAPI, UploadFile, File
-import os, uuid
-from app.worker import process_video_task
+import os
+import uuid
+from app.worker import process_video_task, celery_app
 from celery.result import AsyncResult
 
 app = FastAPI()
@@ -9,6 +10,10 @@ UPLOAD_FOLDER = "uploads"
 PROCESSED_FOLDER = "processed"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 os.makedirs(PROCESSED_FOLDER, exist_ok=True)
+
+@app.get("/")
+async def root():
+    return {"message": "Exercise API Backend is running"}
 
 @app.post("/analyze")
 async def analyze_video(file: UploadFile = File(...)):
@@ -24,7 +29,7 @@ async def analyze_video(file: UploadFile = File(...)):
 
 @app.get("/status/{job_id}")
 def get_status(job_id: str):
-    res = AsyncResult(job_id)
+    res = AsyncResult(job_id, app=celery_app)
     if res.state == "PENDING":
         return {"status": "pending"}
     elif res.state == "SUCCESS":

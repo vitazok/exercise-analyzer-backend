@@ -1,6 +1,5 @@
 import cv2
 import mediapipe as mp
-import numpy as np
 import os
 
 class ExerciseAnalyzer:
@@ -18,8 +17,7 @@ class ExerciseAnalyzer:
     def process_video(self, video_path, output_path):
         cap = cv2.VideoCapture(video_path)
         if not cap.isOpened():
-            print(f"Error opening video: {video_path}")
-            return [], "unknown"
+            raise RuntimeError(f"Error opening video: {video_path}")
 
         fps = int(cap.get(cv2.CAP_PROP_FPS))
         frame_width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -42,14 +40,12 @@ class ExerciseAnalyzer:
             results = self.pose.process(rgb_frame)
 
             if results.pose_landmarks:
-                # Detect exercise type on first valid frame
                 if exercise_detected is None:
-                    exercise_detected = "general"  # default (or use detection logic here)
+                    exercise_detected = "general"  # Placeholder or detection logic
 
-                feedback = [f"✓ Frame {frame_count}: Good posture (mock feedback)"]
-                all_feedback.extend(feedback)
+                feedback = f"✓ Frame {frame_count}: Good posture (mock feedback)"
+                all_feedback.append(feedback)
 
-                # Draw landmarks on frame
                 self.mp_drawing.draw_landmarks(
                     frame, results.pose_landmarks, self.mp_pose.POSE_CONNECTIONS,
                     self.mp_drawing.DrawingSpec(color=(0, 255, 0), thickness=2, circle_radius=2),
@@ -61,9 +57,7 @@ class ExerciseAnalyzer:
         cap.release()
         out.release()
 
-        # Remove duplicates from feedback
         unique_feedback = list(set(all_feedback))
-
         if exercise_detected is None:
             exercise_detected = "unknown"
 

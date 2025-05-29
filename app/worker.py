@@ -15,7 +15,7 @@ def process_video_task(upload_path, processed_folder):
     processed_path = os.path.join(processed_folder, f"processed_{filename}")
 
     all_feedback, exercise_type = analyzer.process_video(upload_path, processed_path)
-    
+
     return {
         "exercise_type": exercise_type,
         "feedback": all_feedback,
