@@ -1,7 +1,7 @@
 # Use official Python image
 FROM python:3.11-slim
 
-# Install system dependencies for OpenCV
+# Install system dependencies for OpenCV + Mediapipe
 RUN apt-get update && apt-get install -y \
     libgl1-mesa-glx \
     libglib2.0-0 \
@@ -19,8 +19,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the app
 COPY . .
 
-# Expose port (Railway injects $PORT)
+# Expose the port (Railway injects PORT env)
 EXPOSE 8000
 
-# Start the app
-CMD ["uvicorn", "exercise_api_backend:app", "--host", "0.0.0.0", "--port", "$PORT"]
+# Run Uvicorn, expanding PORT from env
+CMD uvicorn exercise_api_backend:app --host 0.0.0.0 --port ${PORT}
