@@ -16,4 +16,11 @@ fi
 source venv/bin/activate
 echo "✅ Virtual environment activated."
 
-# Install
+# Install required packages
+echo "📦 Installing required Python packages..."
+pip install --upgrade pip
+pip install fastapi uvicorn python-multipart opencv-python mediapipe numpy
+
+# Start the backend server
+echo "🚀 Starting FastAPI server with Uvicorn..."
+uvicorn exercise_api_backend:app --host 0.0.0.0 --port 8000 --reload
