@@ -4,6 +4,7 @@ __pycache__/
 *.pyd
 *.env
 venv/
+exercise_env/
 .idea/
 .git/
 .DS_Store
