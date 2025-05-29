@@ -8,7 +8,7 @@ celery_app = Celery(
     backend=os.environ.get("REDIS_URL", "redis://redis:6379/0")
 )
 
-@celery_app.task
+@celery_app.task(name="app.worker.process_video_task")
 def process_video_task(upload_path, processed_folder):
     analyzer = ExerciseAnalyzer()
     filename = os.path.basename(upload_path)

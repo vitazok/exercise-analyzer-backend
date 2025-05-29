@@ -1,30 +1,107 @@
-# Exercise Analyzer Backend
 
-This is a FastAPI backend for analyzing exercise videos using pose detection (mediapipe).
+Exercise Analyzer Backend
+=========================
 
-## Local Setup
+A FastAPI + Celery + Redis backend to analyze exercise videos and generate posture feedback, with Railway deployment.
 
-1. Clone the repo:
-   git clone https://github.com/yourusername/exercise-analyzer-backend.git
+-------------------------------------------------------------
 
-2. Navigate to the folder:
-   cd exercise-analyzer-backend
+🚀 Features
+-----------
+✅ Upload exercise videos
+✅ Analyze posture + technique
+✅ Return processed videos + feedback report
+✅ Background job processing with Celery
+✅ REST API endpoints (upload, status check)
+✅ Docker + Railway deploy ready
 
-3. Create virtual environment:
-   python3 -m venv venv
-   source venv/bin/activate
+-------------------------------------------------------------
 
-4. Install packages:
-   pip install -r requirements.txt
+📂 Project Structure
+---------------------
+/app
+    main.py            → FastAPI app
+    worker.py          → Celery worker
+    exercise_v2.py     → Exercise analyzer logic
+Dockerfile
+docker-compose.yml
+requirements.txt
+README.md
 
-5. Run the server:
-   uvicorn exercise_api_backend:app --host 0.0.0.0 --port 8000 --reload
+-------------------------------------------------------------
 
-## Cloud Deployment (Railway)
+💻 Local Development
+---------------------
 
-1. Create a Railway account: https://railway.app
-2. Click 'New Project' > 'Deploy from GitHub'
-3. Select this repo
-4. Set start command:
-   uvicorn exercise_api_backend:app --host 0.0.0.0 --port $PORT
-5. Deploy and test the public URL!
+1️⃣ Install Docker
+- Docker Desktop → https://www.docker.com/products/docker-desktop
+- Check Docker Compose → docker compose --version
+
+2️⃣ Build + Run
+docker compose up --build
+
+- FastAPI → http://localhost:8000
+- Redis runs in container
+- Celery worker in background
+
+3️⃣ API Endpoints
+- POST /analyze → upload video
+- GET /status/{job_id} → check status
+
+Swagger docs:
+http://localhost:8000/docs
+
+-------------------------------------------------------------
+
+☁ Railway Deployment
+----------------------
+
+Prerequisites:
+- Railway account → https://railway.app
+- Connected GitHub repo
+- Env var: REDIS_URL=redis://redis:6379/0
+
+Steps:
+1️⃣ Link GitHub to Railway
+2️⃣ Use Dockerfile deploy
+3️⃣ Start command:
+uvicorn app.main:app --host 0.0.0.0 --port $PORT
+
+4️⃣ Set up Redis (plugin/container)
+5️⃣ Get public domain (e.g., https://exercise-analyzer-backend.up.railway.app)
+6️⃣ Visit /docs to test API
+
+-------------------------------------------------------------
+
+⚙ Common Commands
+------------------
+
+- View logs:
+docker compose logs -f
+
+- Prune Docker:
+docker system prune -a
+
+- Restart containers:
+docker compose down && docker compose up --build
+
+-------------------------------------------------------------
+
+❗ Troubleshooting
+------------------
+
+✅ Builds hang → restart Docker Desktop
+✅ Railway build fails → check failing package
+✅ Large .venv → use .dockerignore to exclude
+
+-------------------------------------------------------------
+
+🌟 Next Features
+-----------------
+
+- ✅ Celery background worker
+- ⏳ Flutter frontend app
+- ⏳ Video progress tracking
+- ⏳ User sessions + storage
+
+Maintained by: https://github.com/vitazok

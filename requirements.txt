@@ -1,8 +1,23 @@
-certifi==2025.4.26
-charset-normalizer==3.4.2
-docopt==0.6.2
-idna==3.10
-pipreqs==0.4.13
-requests==2.32.3
-urllib3==2.4.0
-yarg==0.1.10
+# Web server
+fastapi==0.110.1
+uvicorn==0.29.0
+
+# Background task queue
+celery==5.3.6
+redis==5.0.4
+
+# OpenCV
+opencv-python==4.9.0.80
+opencv-contrib-python==4.9.0.80
+
+# Machine learning + scientific stack
+numpy==1.26.4
+scipy==1.13.0
+
+# Data tools
+pandas==2.2.2
+
+# Multipart handling (for file uploads)
+python-multipart==0.0.9
+
+mediapipe==0.10.18
