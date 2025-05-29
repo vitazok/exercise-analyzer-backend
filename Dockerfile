@@ -24,4 +24,4 @@ COPY . .
 EXPOSE 8000
 
 # Run Uvicorn, expanding PORT from env
-CMD uvicorn exercise_api_backend:app --host 0.0.0.0 --port ${PORT}
+CMD ["python", "-m", "uvicorn", "exercise_api_backend:app", "--host", "0.0.0.0", "--port", "8000"]
